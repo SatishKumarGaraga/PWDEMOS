@@ -1,0 +1,17 @@
+[
+   {
+      "email":"mstest_cxt_substesting1@outlook.com",
+      "password":"wireless-blind-ethanol",
+      "validity":"valid"
+   },
+   {
+      "email":"mstest_cxt_substesting2@outlook.com",
+      "password":"mstest_cxt_substesting1@outlook.com",
+      "validity":"invalid"
+   },
+   {
+      "email":"mstest_cxt_substesting2@outlook.com",
+      "password":"basket-activity-brilliant",
+      "validity":"valid"
+   }
+]

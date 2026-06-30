@@ -1,0 +1,5 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","1","test4","chromium","2026-06-14","passed","2026-06-14","group2","grouping.spec.ts","",""
+"","1","test3","chromium","2026-06-14","passed","2026-06-14","group2","grouping.spec.ts","",""
+"","1","test2","chromium","2026-06-14","passed","2026-06-14","group1","grouping.spec.ts","",""
+"","3","test1","chromium","2026-06-14","passed","2026-06-14","group1","grouping.spec.ts","",""

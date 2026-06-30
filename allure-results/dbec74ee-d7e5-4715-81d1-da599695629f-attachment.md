@@ -1,0 +1,113 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: paramtest1.spec.ts >> logintest for mstest_cxt_substesting2@outlook.com,wireless-blind-ethanol
+- Location: tests\paramtest1.spec.ts:10:9
+
+# Error details
+
+```
+Test timeout of 30000ms exceeded.
+```
+
+```
+Error: locator.click: Test timeout of 30000ms exceeded.
+Call log:
+  - waiting for getByTestId('secondaryButton')
+    - waiting for" https://login.live.com/ppsecure/post.srf?nopa=2&client_id=000000004420578E&contextid=F4D0B5F7A17D321E&opid=3A9DD7D9E91A5A98&bk=1781541775&uaid=30564ca5654f444dab31ef835b3278de&pid=15216" navigation to finish...
+    - navigated to "https://login.live.com/ppsecure/post.srf?nopa=2&client_id=000000004420578E&contextid=F4D0B5F7A17D321E&opid=3A9DD7D9E91A5A98&bk=1781541775&uaid=30564ca5654f444dab31ef835b3278de&pid=15216"
+
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - generic:
+    - generic:
+      - generic:
+        - main [ref=e4]:
+          - generic [ref=e9]:
+            - generic [ref=e10]:
+              - button "Back" [ref=e11]:
+                - img [ref=e13]
+              - img "Microsoft" [ref=e15]
+            - generic [ref=e22]:
+              - generic "mstest_cxt_substesting2@outlook.com" [ref=e24]:
+                - generic [ref=e25]: mstest_cxt_substesting2@outlook.com
+              - status [ref=e26]:
+                - heading "Enter your password" [level=1] [ref=e28]
+              - generic [ref=e31]:
+                - generic [ref=e32]:
+                  - generic [ref=e33]: Password
+                  - textbox "Password" [active] [ref=e34]:
+                    - /placeholder: ""
+                  - button "Show password" [ref=e36]:
+                    - img [ref=e38]
+                - alert [ref=e40]:
+                  - img [ref=e42]
+                  - text: That password is incorrect for your Microsoft account.
+              - button "Next" [ref=e45] [cursor=pointer]
+              - button "Other ways to sign in" [ref=e48] [cursor=pointer]
+        - contentinfo [ref=e50]:
+          - generic [ref=e52]:
+            - button "Help and feedback" [ref=e53] [cursor=pointer]
+            - link "Terms of use" [ref=e54] [cursor=pointer]:
+              - /url: https://www.microsoft.com/servicesagreement/
+            - link "Privacy and cookies" [ref=e55] [cursor=pointer]:
+              - /url: https://privacy.microsoft.com/-
+          - generic [ref=e57]:
+            - text: Use private browsing if this is not your device.
+            - link "Learn more" [ref=e58] [cursor=pointer]:
+              - /url: https://go.microsoft.com/fwlink/?LinkID=2281649
+```
+
+# Test source
+
+```ts
+  1  | import {test,expect} from "@playwright/test"
+  2  | 
+  3  | const loginData:string[][]=
+  4  | [['mstest_cxt_substesting1@outlook.com','wireless-blind-ethanol','valid'],
+  5  | ['mstest_cxt_substesting2@outlook.com','wireless-blind-ethanol','Invalid'],
+  6  | ['mstest_cxt_substesting2@outlook.com','asket-activity-brilliant','valid']
+  7  | ]
+  8  | for(let [email,password,validity] of loginData)
+  9  | {
+  10 |     test(`logintest for ${email},${password}`,async({page})=>
+  11 |        
+  12 | {
+  13 |   await page.goto('https://support.xbox.com/en-US/');
+  14 |   await page.getByTestId('GuestCard').getByRole('link', { name: 'Sign In' }).click();
+  15 |   await page.getByRole('textbox', { name: 'Email or phone number' }).click();
+  16 |   await page.getByRole('textbox', { name: 'Email or phone number' }).fill(email);
+  17 |   await page.getByTestId('primaryButton').click();
+  18 |   await page.locator('div').filter({ hasText: /^Use your password$/ }).nth(2).click();
+  19 |   await page.getByRole('textbox', { name: 'Password' }).click();
+  20 |   await page.getByRole('textbox', { name: 'Password' }).fill(password);
+  21 |   await page.getByTestId('primaryButton').click();
+> 22 |   await page.getByTestId('secondaryButton').click();
+     |                                             ^ Error: locator.click: Test timeout of 30000ms exceeded.
+  23 |   
+  24 |   if(validity.toLowerCase()==='valid')
+  25 |   {
+  26 |     const moreactions=await page.locator("#MoreActions_Button")
+  27 |     expect(moreactions).toBeVisible()
+  28 |   }
+  29 |   else
+  30 |   {
+  31 |     const errormessage= await page.getByText('incorrect')
+  32 |       await expect(errormessage).toBeVisible();
+  33 | 
+  34 |   }
+  35 | 
+  36 | })
+  37 | }
+  38 | 
+  39 | 
+```
